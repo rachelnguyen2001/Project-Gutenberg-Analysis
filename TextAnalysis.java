@@ -2,7 +2,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import java.lang.Object;
 import java.util.*;
 
 class Pair {
@@ -70,8 +69,7 @@ class TextAnalysis {
 
     public static Pair[] get20MostFrequentWords(String fileName) {
 	HashMap<String, Integer> uniqueWords = getUniqueWords(fileName);
-	List<String> uniqueWord;
-	uniqueWord = sortByFrequency(uniqueWords);
+	List<String> uniqueWord = sortByFrequency(uniqueWords);
 
         Pair[] result = new Pair[20];
 
@@ -86,8 +84,7 @@ class TextAnalysis {
     public static Pair[] get20MostInterestingFrequentWords(String fileName) {
 	ArrayList<String> mostCommon = readFile("1-1000.txt");
 	HashMap<String, Integer> uniqueWords = getUniqueWords(fileName);
-	List<String> uniqueWord;
-	uniqueWord = sortByFrequency(uniqueWords);
+	List<String> uniqueWord = sortByFrequency(uniqueWords);
 
 	Pair[] result = new Pair[20];
 	int i = 0;
@@ -102,6 +99,24 @@ class TextAnalysis {
 	    }
 
 	    j++;   
+	}
+
+	return result;
+    }
+
+    public static Pair[] get20LeastFrequentWords(String fileName) {
+	HashMap<String, Integer> uniqueWords = getUniqueWords(fileName);
+	List<String> uniqueWord = sortByFrequency(uniqueWords);
+
+	Pair[] result = new Pair[20];
+	int i = 0;
+	int j = uniqueWord.size() - 1;
+
+	while (i < result.length) {
+	    String current = uniqueWord.get(j);
+	    result[i] = new Pair(current, uniqueWords.get(current));
+	    i++;
+	    j--;
 	}
 
 	return result;
@@ -131,6 +146,8 @@ class TextAnalysis {
 	System.out.println("20 most interesting frequent words: ");
 	pairArrayToString(get20MostInterestingFrequentWords(fileName));
 
+	System.out.println("20 least frequent words: ");
+	pairArrayToString(get20LeastFrequentWords(fileName));
        
     }
 }
