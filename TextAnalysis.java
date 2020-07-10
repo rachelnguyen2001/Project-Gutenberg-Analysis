@@ -103,7 +103,7 @@ class TextAnalysis {
 
 	return result;
     }
-
+    
     public static Pair[] get20LeastFrequentWords(String fileName) {
 	HashMap<String, Integer> uniqueWords = getUniqueWords(fileName);
 	List<String> uniqueWord = sortByFrequency(uniqueWords);
@@ -122,6 +122,51 @@ class TextAnalysis {
 	return result;
     }
 
+    public static int getNumberOfChapters(String fileName) {
+	HashMap<String, Integer> uniqueWords = getUniqueWords(fileName);
+	return uniqueWords.get("CHAPTER");
+    }
+
+    public static String intToRoman(int c) {
+	if (c == 1) { return "I"; }
+	if (c == 2) { return "II"; }
+	if (c == 3) { return "III"; }
+	if (c == 4) { return "IV"; }
+	if (c == 5) { return "V"; }
+	if (c == 6) { return "VI"; }
+	if (c == 7) { return "VII"; }
+	if (c == 8) { return "VIII"; }
+	if (c == 9) { return "IX"; }
+	if (c == 10) { return "X"; }
+	if (c == 11) { return "XI"; }
+	return "XII";
+    }
+
+    public static int[] getFrequencyOfWord(String fileName, String word) {
+	int numOfChapters = getNumberOfChapters(fileName);
+	int[] result = new int[numOfChapters];
+	ArrayList<String> content = readFile(fileName);
+	int maxIndex = content.size();
+
+	for (int i = 0; i < result.length; i++) {
+	    int count = 0;
+	    String chapter = intToRoman(i + 1);
+	    int startIndex = content.indexOf(chapter);
+
+	    while (startIndex < maxIndex && !content.get(startIndex).equals("CHAPTER")) {
+
+		if (word.equals(content.get(startIndex))) {
+		    count++;
+		}
+		startIndex++;
+	    }
+
+	    result[i] = count;
+	}
+	
+	return result;
+    }
+    
     public static void pairArrayToString(Pair[] result) {
 	for (int i = 0; i < result.length; i++) {
 	    Pair current = result[i];
@@ -148,6 +193,8 @@ class TextAnalysis {
 
 	System.out.println("20 least frequent words: ");
 	pairArrayToString(get20LeastFrequentWords(fileName));
+
+	System.out.println(Arrays.toString(getFrequencyOfWord(fileName, "the")));
        
     }
 }
