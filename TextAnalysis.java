@@ -200,7 +200,6 @@ class TextAnalysis {
 
     public static int getChapterQuoteAppears(String fileName, String quote) {
      	int numOfChapters = getNumberOfChapters(fileName);
-	quote = quote.trim();
 	
 	for (int i = 1; i <= numOfChapters; i++) {
 	    String content = getChapterContent(i, fileName);
@@ -212,6 +211,35 @@ class TextAnalysis {
 	}
 
 	return -1;
+    }
+
+    public static Table initializeGeneration(String fileName) {
+	ArrayList<String> content = readFile(fileName);
+	Table t = new Table();
+	
+	for (int i = 0; i < content.size() - 1; i++) {
+	    String current = content.get(i);
+	    String follow = content.get(i + 1);
+	    t.updateTable(current, follow);
+	}
+
+	return t;
+    }
+
+    public static String generateSentence(String fileName) {
+	Table t = initializeGeneration(fileName);
+	String current = "The";
+	String result = "The ";
+	int i = 0;
+
+	while (i < 19) {
+	    current = t.getNext(current);
+	    result += current;
+	    result += " ";
+	    i++;
+	}
+
+	return result;
     }
     
     public static void pairArrayToString(Pair[] result) {
@@ -244,6 +272,8 @@ class TextAnalysis {
 	System.out.println(Arrays.toString(getFrequencyOfWord(fileName, "the")));
 
 	System.out.println(getChapterQuoteAppears(fileName, "How good it is to be free!"));
+
+	System.out.println(generateSentence(fileName));
        
     }
 }
