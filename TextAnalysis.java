@@ -166,6 +166,53 @@ class TextAnalysis {
 	
 	return result;
     }
+
+    public static int romanToInt(String s) {
+	if (s.equals("I")) { return 1; }
+	if (s.equals("II")) { return 2; }
+	if (s.equals("III")) { return 3; }
+	if (s.equals("IV")) { return 4; }
+	if (s.equals("V")) { return 5; }
+	if (s.equals("VI")) { return 6; }
+	if (s.equals("VII")) { return 7; }
+	if (s.equals("VIII")) { return 8; }
+	if (s.equals("IX")) { return 9; }
+	if (s.equals("X")) { return 10; }
+	if (s.equals("XI")) { return 11; }
+	return 12;
+    }
+
+    public static String getChapterContent(int c, String fileName) {
+	String chapter = intToRoman(c);
+	ArrayList<String> content = readFile(fileName);
+	int startIndex = content.indexOf(chapter);
+	int maxIndex = content.size();
+	StringBuilder sb = new StringBuilder();
+	
+	while (startIndex < maxIndex && !content.get(startIndex).equals("CHAPTER")) {
+	    sb.append(content.get(startIndex));
+	    sb.append(" ");
+	    startIndex++;
+	}
+
+	return sb.toString();
+    }
+
+    public static int getChapterQuoteAppears(String fileName, String quote) {
+     	int numOfChapters = getNumberOfChapters(fileName);
+	quote = quote.trim();
+	
+	for (int i = 1; i <= numOfChapters; i++) {
+	    String content = getChapterContent(i, fileName);
+
+	    if (content.contains(quote)) {
+		return i;
+	    }
+	    
+	}
+
+	return -1;
+    }
     
     public static void pairArrayToString(Pair[] result) {
 	for (int i = 0; i < result.length; i++) {
@@ -195,6 +242,8 @@ class TextAnalysis {
 	pairArrayToString(get20LeastFrequentWords(fileName));
 
 	System.out.println(Arrays.toString(getFrequencyOfWord(fileName, "the")));
+
+	System.out.println(getChapterQuoteAppears(fileName, "How good it is to be free!"));
        
     }
 }
