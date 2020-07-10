@@ -60,13 +60,18 @@ class TextAnalysis {
     	return uniqueWords.size();
     }
 
+    public static List<String> sortByFrequency(HashMap<String, Integer> uniqueWords) {
+	Comparator<String> byFrequency = (String s1, String s2) -> (uniqueWords.get(s2) - uniqueWords.get(s1));
+	Set<String> s = uniqueWords.keySet();
+	List<String> uniqueWord = s.stream().collect(Collectors.toList());
+	Collections.sort(uniqueWord, byFrequency);
+	return uniqueWord;
+    }
+
     public static Pair[] get20MostFrequentWords(String fileName) {
 	HashMap<String, Integer> uniqueWords = getUniqueWords(fileName);
-    	Comparator<String> byFrequency = (String s1, String s2) -> (uniqueWords.get(s2) - uniqueWords.get(s1));
-    	Set<String> unique = uniqueWords.keySet();
-    	List<String> uniqueWord = unique.stream().collect(Collectors.toList());
-	
-    	Collections.sort(uniqueWord, byFrequency);
+	List<String> uniqueWord;
+	uniqueWord = sortByFrequency(uniqueWords);
 
         Pair[] result = new Pair[20];
 
@@ -76,6 +81,37 @@ class TextAnalysis {
 	}
 
     	return result;
+    }
+
+    public static Pair[] get20MostInterestingFrequentWords(String fileName) {
+	ArrayList<String> mostCommon = readFile("1-1000.txt");
+	HashMap<String, Integer> uniqueWords = getUniqueWords(fileName);
+	List<String> uniqueWord;
+	uniqueWord = sortByFrequency(uniqueWords);
+
+	Pair[] result = new Pair[20];
+	int i = 0;
+	int j = 0;
+	
+	while (i < result.length) {
+	    String current = uniqueWord.get(j);
+	    
+	    if (!mostCommon.contains(current)) {
+		result[i] = new Pair(current, uniqueWords.get(current));
+		i++;
+	    }
+
+	    j++;   
+	}
+
+	return result;
+    }
+
+    public static void pairArrayToString(Pair[] result) {
+	for (int i = 0; i < result.length; i++) {
+	    Pair current = result[i];
+	    System.out.println(current.s + ": " + current.occurrences); 
+	}
     }
 
     public static void main(String[] args) {
@@ -90,11 +126,11 @@ class TextAnalysis {
 	System.out.println(getTotalUniqueWords(fileName));
 
 	System.out.println("20 most frequent words: ");
-	Pair[] mostFrequent = get20MostFrequentWords(fileName);
+	pairArrayToString(get20MostFrequentWords(fileName));
 
-	for (int i = 0; i < mostFrequent.length; i++) {
-	    Pair current = mostFrequent[i];
-	    System.out.println(current.s + ": " + current.occurrences); 
-	}
+	System.out.println("20 most interesting frequent words: ");
+	pairArrayToString(get20MostInterestingFrequentWords(fileName));
+
+       
     }
 }
