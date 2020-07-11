@@ -10,10 +10,20 @@ class TrieNode {
 	children = new ArrayList<>();
     }
 
+    /**
+     * This method adds a child to the given TrieNode.
+     * @param tn the TrieNode to be added as a child
+     */
     public void addChild(TrieNode tn) {
 	children.add(tn);
     }
 
+    /**
+     * This method gets a child of the current TrieNode that represents a given word.
+     * @param s the given word
+     * @return TrieNode if there is a child that represents the given word
+     * @return null if there is no child that represents the given word
+     */
     public TrieNode getChild(String s) {
 
 	for (int i = 0; i < children.size(); i++) {

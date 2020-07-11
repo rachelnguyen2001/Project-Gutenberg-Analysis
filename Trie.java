@@ -11,6 +11,10 @@ class Trie {
 	root = new TrieNode(" ");
     }
 
+    /**
+     * This method adds a sentence to the Trie.
+     * @param l a list of strings that represent the sentence
+     */
     public void addSentence(List<String> l) {
 	TrieNode current = root;
 	int i = 0;
@@ -32,6 +36,12 @@ class Trie {
 	
     }
 
+    /**
+     * This method checks if a sentence is in the Trie.
+     * @param l a list of strings that represent the sentence
+     * @return true if the sentence is in the Trie
+     * @return false if the sentence is not in the Trie
+     */
     public boolean containsSentence(List<String> l) {
 	TrieNode current = root;
 	
@@ -48,6 +58,11 @@ class Trie {
 	return true;
     }
 
+    /**
+     * This method gets a sentence and returns an array of all strings that starts with the sentence.
+     * @param l a list of strings that represent the sentence
+     * @return ArrayList<String> a list of all strings that start with the sentence
+     */
     public ArrayList<String> getRecommendation(List<String> l) {
 	ArrayList<String> result = new ArrayList<>();
 
@@ -70,7 +85,12 @@ class Trie {
 
 	return result;
     }
-    
+
+    /**
+     * This method formats a sentence
+     * @param l a list of string that represents a sentence
+     * @return String a formatted sentence
+     */
     public String listToString(List<String> l) {
 	String soFar = "";
 
@@ -81,7 +101,13 @@ class Trie {
 
 	return soFar;
     }
-    
+
+    /**
+     * This method gets all the sentences that start with a given string.
+     * @param soFar the sentence we have so far
+     * @param tn the current TrieNode
+     * @param result the list of all the possible sentences
+     */
     public void getRecommendationHelper(String soFar, TrieNode tn, ArrayList<String> result) {
 	soFar += tn.word;
 	soFar += " ";
