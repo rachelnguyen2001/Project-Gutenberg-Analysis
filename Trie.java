@@ -1,5 +1,8 @@
 import java.util.*;
 
+/**
+ * A Trie that stores all the strings in a text.
+ */
 class Trie {
 
     protected TrieNode root;

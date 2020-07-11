@@ -14,8 +14,17 @@ class Pair {
     }
 }
 
+/**
+ *
+ * A text analysis program
+ */
 class TextAnalysis {
-
+   
+    /**
+     * This method reads the content of a file.
+     * @param fileName the name of the file to be read
+     * @return ArrayList<String> a list of words in the file
+     */ 
     public static ArrayList<String> readFile(String fileName) {
 	ArrayList<String> content = new ArrayList<>();
 
@@ -35,12 +44,22 @@ class TextAnalysis {
 	return content;
     }
 
+    /**
+     * This method gets the total number of words in a file.
+     * @param fileName the name of the file to be read
+     * @return int the total number of words in a file
+     */
     public static int getTotalNumberOfWords(String fileName) {
 	ArrayList<String> content = readFile(fileName);
 
 	return content.size();
     }
 
+    /**
+     * This method pairs each word with its frequency in a file.
+     * @param fileName the name of the file to be read
+     * @return HashMap<String, Integer> a map that maps each word with its' occurrences
+     */
     public static HashMap<String, Integer> getUniqueWords(String fileName) {
 	ArrayList<String> content = readFile(fileName);
 	HashMap<String, Integer> uniqueWords = new HashMap<>();
@@ -53,12 +72,22 @@ class TextAnalysis {
 	return uniqueWords;
     }
 
+    /**
+     * This method gets the total number of unique words in a file.
+     * @param fileName the name of the file to be read
+     * @return int the total number of unique words in a file
+     */
     public static int getTotalUniqueWords(String fileName) {
 	HashMap<String, Integer> uniqueWords = getUniqueWords(fileName);
 
     	return uniqueWords.size();
     }
 
+    /**
+     * This method sorts a list of words by its occurrences in decreasing order.
+     * @param HashMap<String, Integer> a map that maps each word to its occurrence
+     * @return List<String> words are sorted in decreasing order by there frequencies
+     */
     public static List<String> sortByFrequency(HashMap<String, Integer> uniqueWords) {
 	Comparator<String> byFrequency = (String s1, String s2) -> (uniqueWords.get(s2) - uniqueWords.get(s1));
 	Set<String> s = uniqueWords.keySet();
@@ -67,6 +96,11 @@ class TextAnalysis {
 	return uniqueWord;
     }
 
+    /**
+     * This method gets the 20 most frequent words in a file.
+     * @param fileName the name of the file to be read
+     * @return Pair[] an array of Pair, each Pair has the word and its occurrence
+     */
     public static Pair[] get20MostFrequentWords(String fileName) {
 	HashMap<String, Integer> uniqueWords = getUniqueWords(fileName);
 	List<String> uniqueWord = sortByFrequency(uniqueWords);
@@ -81,6 +115,11 @@ class TextAnalysis {
     	return result;
     }
 
+    /**
+     * This method gets the 20 most interesting frequent words in a file.
+     * @param fileName the name of the file to be read
+     * @return Pair[] an array of Pair, each Pair has the word and its occurrence
+     */
     public static Pair[] get20MostInterestingFrequentWords(String fileName) {
 	ArrayList<String> mostCommon = readFile("1-1000.txt");
 	HashMap<String, Integer> uniqueWords = getUniqueWords(fileName);
@@ -103,7 +142,12 @@ class TextAnalysis {
 
 	return result;
     }
-    
+
+    /**
+     * This method gets the 20 least frequent words in a file.
+     * @param fileName the name of the file to be read
+     * @return Pair[], an array of Pair, each Pair has the word and its occurrence 
+     */
     public static Pair[] get20LeastFrequentWords(String fileName) {
 	HashMap<String, Integer> uniqueWords = getUniqueWords(fileName);
 	List<String> uniqueWord = sortByFrequency(uniqueWords);
@@ -122,11 +166,21 @@ class TextAnalysis {
 	return result;
     }
 
+    /**
+     * This method gets the number of chapters in a file.
+     * @param fileName the name of the file to be read
+     * @return int the number of chapters in a file
+     */
     public static int getNumberOfChapters(String fileName) {
 	HashMap<String, Integer> uniqueWords = getUniqueWords(fileName);
 	return uniqueWords.get("CHAPTER");
     }
 
+    /**
+     * This method maps an integer less than 13 to its Roman representation.
+     * @param c an integer represents the chapter
+     * @return String the Roman representation of the chapter
+     */
     public static String intToRoman(int c) {
 	if (c == 1) { return "I"; }
 	if (c == 2) { return "II"; }
@@ -142,6 +196,12 @@ class TextAnalysis {
 	return "XII";
     }
 
+    /**
+     * This method gets the progressive frequency of a word throughout the file.
+     * @param fileName the name of the file to be read
+     * @param word the word that we want to know its progressive frequency
+     * @return int[] the frequency of the word through each chapter
+     */
     public static int[] getFrequencyOfWord(String fileName, String word) {
 	int numOfChapters = getNumberOfChapters(fileName);
 	int[] result = new int[numOfChapters];
@@ -167,6 +227,11 @@ class TextAnalysis {
 	return result;
     }
 
+    /**
+     * This method maps a Roman representation to an integer.
+     * @param s the Roman representation
+     * @return int integer value for the Roman representation
+     */
     public static int romanToInt(String s) {
 	if (s.equals("I")) { return 1; }
 	if (s.equals("II")) { return 2; }
@@ -182,6 +247,12 @@ class TextAnalysis {
 	return 12;
     }
 
+    /**
+     * This method gets the content of a given chapter.
+     * @param c the chapter value in integer
+     * @param fileName the name of the file to be read
+     * @return String content of the chapter
+     */
     public static String getChapterContent(int c, String fileName) {
 	String chapter = intToRoman(c);
 	ArrayList<String> content = readFile(fileName);
@@ -198,6 +269,13 @@ class TextAnalysis {
 	return sb.toString();
     }
 
+    /**
+     * This method gets the chapter in which a quote appears.
+     * @param fileName the name of the file to be read
+     * @param quote the quote
+     * @return int the chapter in which the quote appears
+     * @return -1 if the quote does not appear in the file
+     */
     public static int getChapterQuoteAppears(String fileName, String quote) {
      	int numOfChapters = getNumberOfChapters(fileName);
 	
@@ -213,6 +291,11 @@ class TextAnalysis {
 	return -1;
     }
 
+    /**
+     * This method intializes the process for sentence generation.
+     * @param fileName the name of the file to be read
+     * @return t a Table that contains all the words and their following words
+     */
     public static Table initializeGeneration(String fileName) {
 	ArrayList<String> content = readFile(fileName);
 	Table t = new Table();
@@ -226,6 +309,11 @@ class TextAnalysis {
 	return t;
     }
 
+    /**
+     * This method generates a sentence that starts with "The ".
+     * @param fileName the name of the file to be read
+     * @return String the generated sentence
+     */
     public static String generateSentence(String fileName) {
 	Table t = initializeGeneration(fileName);
 	String current = "The";
@@ -241,7 +329,62 @@ class TextAnalysis {
 
 	return result;
     }
-    
+
+    /**
+     * This method initializes the process of autocomplete.
+     * @param fileName the name of the file to be read
+     * @return a Trie that represents all the strings in the file
+     */
+    public static Trie autoCompleteInitialization(String fileName) {
+	Trie t = new Trie();
+        ArrayList<String> content = readFile(fileName);
+	
+	for (int i = 0; i < content.size(); i++) {
+	    List<String> current = new ArrayList<>();
+	    current.add(content.get(i));
+	    t.addSentence(current);
+	    
+	    for (int j = i + 1; j < content.size(); j++) {
+		current.add(content.get(j));
+		t.addSentence(current);
+	    }
+	    
+	}
+
+	return t;
+    }
+
+    /**
+     * This method gets autocompleted sentences.
+     * @param startOfSentence the start of a sentence 
+     * @param fileName the name of the file to be read
+     * @return List<String> a list of autocompleted strings
+     */
+    public static List<String> getAutocompleteSentence(String startOfSentence, String fileName) {
+	List<String> content = new ArrayList<>();
+	String current = startOfSentence;
+	
+	while (current.contains(" ")) {
+	    content.add(current.substring(0, current.indexOf(" ")));
+
+	    if (current.contains(" ")) {
+		current = current.substring(current.indexOf(" ") + 1);
+	    } else {
+		break;
+	    }
+	}
+
+	content.add(current);
+
+	Trie t = autoCompleteInitialization(fileName);
+	return t.getRecommendation(content);
+	
+    }
+
+    /**
+     * This method prints out the content of an array of Pair.
+     * @param Pair[] an array of Pair
+     */
     public static void pairArrayToString(Pair[] result) {
 	for (int i = 0; i < result.length; i++) {
 	    Pair current = result[i];
@@ -252,11 +395,9 @@ class TextAnalysis {
     public static void main(String[] args) {
 	String fileName = "62441-0.txt";
 
-	// 23778
 	System.out.println("Total number of words: ");
 	System.out.println(getTotalNumberOfWords(fileName));
 
-	// 3257
 	System.out.println("Total number of unique words: ");
 	System.out.println(getTotalUniqueWords(fileName));
 
@@ -274,6 +415,9 @@ class TextAnalysis {
 	System.out.println(getChapterQuoteAppears(fileName, "How good it is to be free!"));
 
 	System.out.println(generateSentence(fileName));
-       
+
+	System.out.println(getAutocompleteSentence("I", "test1.txt"));
+	System.out.println(getAutocompleteSentence("as we have brought these adventures of Sharp Eyes to an end, we will say", fileName));
+      
     }
 }

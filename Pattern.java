@@ -2,6 +2,9 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.*;
 
+/**
+ * A Pattern that stores that frequencies of following words.
+ */
 class Pattern {
     Map<String, Integer> frequency;
     
